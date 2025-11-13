@@ -1,0 +1,109 @@
+/* Generator Styles */
+.text-field-container {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+/* Row container for 2 fields side-by-side */
+.text-field-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  position: relative;
+  align-items: center;
+}
+
+.text-field {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  text-align: center; /* Center the text */
+}
+
+/* Half-width fields for side-by-side layout */
+.text-field-half {
+  flex: 1;
+}
+
+.text-field:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.remove-field {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.remove-field:hover {
+  background: #c0392b;
+}
+
+.field-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+#qrcode {
+  margin: 30px auto;
+  background-color: white;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.logo-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.logo-overlay-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+  .field-buttons, .action-buttons {
+    flex-direction: column;
+  }
+}

@@ -1,1 +1,268 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container Styles */
+.container {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  text-align: center;
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #3498db;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background: #f0f0f0;
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: 600;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Button Styles */
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex: 1;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background-color: #d0d0d0;
+}
+
+.btn-success {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #27ae60;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.share-btn {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.share-btn:hover {
+  background-color: #8e44ad;
+}
+
+.print-btn {
+  background-color: #34495e;
+  color: white;
+}
+
+.print-btn:hover {
+  background-color: #2c3e50;
+}
+
+.empty-state {
+  padding: 40px 20px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* Scanner Styles */
+.scanner-placeholder {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 60px 20px;
+  margin: 20px 0;
+  color: #6c757d;
+}
+
+.scanner-placeholder i {
+  font-size: 64px;
+  margin-bottom: 20px;
+  color: #3498db;
+}
+
+.scanner-instructions {
+  background: #e8f4fc;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.scanner-instructions h3 {
+  color: #2980b9;
+  margin-bottom: 10px;
+}
+
+.scanner-instructions ul {
+  padding-left: 20px;
+}
+
+.scanner-instructions li {
+  margin-bottom: 8px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.share-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 25px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.share-option:hover {
+  transform: scale(1.05);
+}
+
+.share-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.share-universal { background-color: #9b59b6; color: white; }
+.email { background-color: #ea4335; color: white; }
+.whatsapp { background-color: #25d366; color: white; }
+.facebook { background-color: #3b5998; color: white; }
+.twitter { background-color: #1da1f2; color: white; }
+.download { background-color: #3498db; color: white; }
+
+.close-modal {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.close-modal:hover {
+  background-color: #d0d0d0;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+  
+  .share-options {
+    flex-wrap: wrap;
+  }
+}

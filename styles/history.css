@@ -1,0 +1,103 @@
+/* History Styles */
+.history-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 20px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
+}
+
+.history-item:hover {
+  background: #f8f9fa;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-content {
+  flex-grow: 1;
+  text-align: left;
+  margin-right: 15px;
+}
+
+.history-text {
+  font-weight: 500;
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+
+.history-date {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.history-btn-small {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.view-btn {
+  color: #3498db;
+}
+
+.view-btn:hover {
+  background: #e8f4fc;
+}
+
+.delete-btn {
+  color: #e74c3c;
+}
+
+.delete-btn:hover {
+  background: #fdedec;
+}
+
+.no-history {
+  padding: 40px 20px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.clear-history-btn {
+  background-color: #e74c3c;
+  color: white;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.clear-history-btn:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 480px) {
+  .history-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .history-actions {
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+}
