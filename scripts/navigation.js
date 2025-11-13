@@ -18,7 +18,6 @@ function showScanner() {
   document.getElementById('generatorContainer').style.display = 'none';
   document.getElementById('scannerContainer').style.display = 'block';
   document.getElementById('historyContainer').style.display = 'none';
-  initScanner();
 }
 
 function showHistory() {
