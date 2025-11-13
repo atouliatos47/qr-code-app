@@ -80,36 +80,26 @@
   <!-- QR Scanner Screen -->
   <div id="scannerContainer" class="container">
     <div class="header">
-      <button class="back-btn" onclick="stopScanner(); showSplash()">
+      <button class="back-btn" onclick="cleanupScanner(); showSplash()">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <h1>QR Code Scanner</h1>
+      <h1>QR Scanner</h1>
       <div style="width: 40px;"></div>
     </div>
     
-    <!-- Scanner Placeholder (before camera starts) -->
-    <div class="scanner-placeholder">
-      <i class="fas fa-camera"></i>
-      <h3>Ready to Scan</h3>
-      <p>Click "Start Scanner" below to activate your camera and scan QR codes.</p>
-    </div>
-    
-    <!-- Video Scanner Container -->
+    <!-- Video Container (hidden by default) -->
     <div class="scanner-video-container" style="display: none;">
       <div class="scanner-frame">
         <video id="scanner-video" autoplay playsinline></video>
         <canvas id="scanner-canvas" style="display: none;"></canvas>
-        <div class="scanner-overlay">
-          <div class="scanner-box"></div>
-        </div>
       </div>
     </div>
     
-    <!-- Scan Result Container -->
+    <!-- Scan Result Container (hidden by default) -->
     <div id="scan-result" class="scan-result" style="display: none;">
       <div class="result-header">
         <i class="fas fa-check-circle"></i>
-        <h3>QR Code Scanned!</h3>
+        <h3>Scanned Data</h3>
       </div>
       <div id="scan-result-text" class="scan-result-text"></div>
       <div class="result-actions">
@@ -125,28 +115,10 @@
       </button>
     </div>
     
-    <!-- Scanner Controls -->
-    <div class="scanner-controls">
-      <button id="start-scanner-btn" class="btn btn-success" onclick="startScanner()" style="width: 100%;">
-        <i class="fas fa-camera"></i> Start Scanner
-      </button>
-      <button id="capture-btn" class="btn btn-primary" onclick="captureAndScan()" style="width: 100%; display: none; margin-bottom: 10px;">
-        <i class="fas fa-camera-retro"></i> Capture & Scan
-      </button>
-      <button id="stop-scanner-btn" class="btn btn-secondary" onclick="stopScanner()" style="width: 100%; display: none;">
-        <i class="fas fa-stop"></i> Stop Scanner
-      </button>
-    </div>
-    
-    <div class="scanner-instructions">
-      <h3>How to scan:</h3>
-      <ul>
-        <li>Click "Start Scanner" to activate your camera</li>
-        <li>Point your camera at a QR code</li>
-        <li>The scanner will automatically detect and decode it</li>
-        <li>View, copy, or share the scanned content</li>
-      </ul>
-    </div>
+    <!-- Single Scan Button -->
+    <button id="scan-btn" class="btn btn-success" onclick="scanQRCode()" style="width: 100%; padding: 20px; font-size: 18px; margin-top: 30px;">
+      <i class="fas fa-qrcode"></i> Scan QR Code
+    </button>
   </div>
 
   <!-- History Screen -->
