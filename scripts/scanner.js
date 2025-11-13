@@ -10,6 +10,7 @@ async function startScanner() {
   const scannerVideoContainer = document.querySelector('.scanner-video-container');
   const stopButton = document.getElementById('stop-scanner-btn');
   const startButton = document.getElementById('start-scanner-btn');
+  const captureButton = document.getElementById('capture-btn');
   
   try {
     // Request camera access
@@ -25,6 +26,7 @@ async function startScanner() {
     scannerVideoContainer.style.display = 'block';
     stopButton.style.display = 'inline-block';
     startButton.style.display = 'none';
+    captureButton.style.display = 'inline-block'; // Show capture button
     
     // Start scanning when video is ready
     video.addEventListener('loadedmetadata', () => {
@@ -33,7 +35,7 @@ async function startScanner() {
       scanQRCode(video, canvas);
     });
     
-    showNotification('Camera started. Point at a QR code to scan.', 'success');
+    showNotification('Camera started. Point at QR code or use "Capture & Scan" button.', 'success');
     
   } catch (error) {
     console.error('Camera error:', error);
@@ -54,6 +56,7 @@ function stopScanner() {
   const scannerVideoContainer = document.querySelector('.scanner-video-container');
   const stopButton = document.getElementById('stop-scanner-btn');
   const startButton = document.getElementById('start-scanner-btn');
+  const captureButton = document.getElementById('capture-btn');
   
   // Stop scanning
   scanningActive = false;
@@ -74,6 +77,7 @@ function stopScanner() {
   scannerVideoContainer.style.display = 'none';
   stopButton.style.display = 'none';
   startButton.style.display = 'inline-block';
+  captureButton.style.display = 'none'; // Hide capture button
   
   showNotification('Scanner stopped', 'info');
 }
@@ -94,21 +98,34 @@ function scanQRCode(video, canvas) {
     // Get image data for QR code detection
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     
-    // Use jsQR library to detect QR code
-    const code = jsQR(imageData.data, imageData.width, imageData.height, {
-      inversionAttempts: "dontInvert",
+    // Try multiple detection attempts with different settings for better accuracy
+    let code = null;
+    
+    // Attempt 1: Normal detection
+    code = jsQR(imageData.data, imageData.width, imageData.height, {
+      inversionAttempts: "attemptBoth",
     });
+    
+    // Attempt 2: If not found, try with inverted colors
+    if (!code) {
+      code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "invertFirst",
+      });
+    }
     
     if (code) {
       // QR code detected!
+      console.log('QR Code detected:', code.data);
       handleScannedCode(code.data);
       
       // Draw detection box
       drawDetectionBox(ctx, code.location);
+      
+      return; // Stop scanning to show result
     }
   }
   
-  // Continue scanning
+  // Continue scanning at higher frequency (60fps for better detection)
   scanAnimation = requestAnimationFrame(() => scanQRCode(video, canvas));
 }
 
@@ -228,6 +245,42 @@ function scanAgain() {
   const video = document.getElementById('scanner-video');
   const canvas = document.getElementById('scanner-canvas');
   scanQRCode(video, canvas);
+}
+
+// Manual capture function for when auto-detection doesn't work well
+function captureAndScan() {
+  const video = document.getElementById('scanner-video');
+  const canvas = document.getElementById('scanner-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  if (video.readyState !== video.HAVE_ENOUGH_DATA) {
+    showNotification('Camera not ready. Please wait...', 'warning');
+    return;
+  }
+  
+  // Set canvas size
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  
+  // Capture current frame
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+  // Get image data
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  
+  // Try to detect QR code with multiple attempts
+  let code = jsQR(imageData.data, imageData.width, imageData.height, {
+    inversionAttempts: "attemptBoth",
+  });
+  
+  if (code) {
+    console.log('QR Code detected via manual capture:', code.data);
+    handleScannedCode(code.data);
+    drawDetectionBox(ctx, code.location);
+    showNotification('QR Code scanned!', 'success');
+  } else {
+    showNotification('No QR code detected. Try moving closer or adjusting angle.', 'warning');
+  }
 }
 
 // Initialize scanner when scanner screen is shown
