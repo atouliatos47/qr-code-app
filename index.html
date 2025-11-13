@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code App</title>
+  <meta name="theme-color" content="#6a11cb" />
+  <link rel="manifest" href="manifest.json" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/splash.css">
+  <link rel="stylesheet" href="styles/generator.css">
+  <link rel="stylesheet" href="styles/scanner.css">
+  <link rel="stylesheet" href="styles/history.css">
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splashScreen">
+    <div class="app-logo">
+      <img src="icons/icon-192.png" alt="FDL Logo" class="logo-image">
+    </div>
+    <h1 class="app-title">QR Code App</h1>
+    <p class="app-subtitle">Create and Scan QR Codes</p>
+    
+    <div class="option-buttons">
+      <button class="option-btn generator-btn" onclick="showGenerator()">
+        <i class="fas fa-qrcode"></i>
+        QR Generator
+      </button>
+      <button class="option-btn scanner-btn" onclick="showScanner()">
+        <i class="fas fa-camera"></i>
+        QR Scanner
+      </button>
+      <button class="option-btn history-btn" onclick="showHistory()">
+        <i class="fas fa-history"></i>
+        QR History
+      </button>
+    </div>
+  </div>
+
+  <!-- QR Generator Screen -->
+  <div id="generatorContainer" class="container">
+    <div class="header">
+      <button class="back-btn" onclick="showSplash()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1>QR Code Generator</h1>
+      <div style="width: 40px;"></div>
+    </div>
+    
+    <div id="text-fields-container">
+      <div class="text-field-container">
+        <input type="text" class="text-field" placeholder="Enter text for this field" />
+      </div>
+    </div>
+    
+    <div class="field-buttons">
+      <button class="btn btn-primary" onclick="addTextField()">+ Add Field</button>
+      <button class="btn btn-secondary" onclick="clearAllTextFields()">Clear All</button>
+    </div>
+    
+    <button class="btn btn-success" onclick="generateQR()">Generate QR Code</button>
+    
+    <div id="qrcode" class="empty-state">
+      QR Code will appear here after generation
+    </div>
+    
+    <div class="action-buttons">
+      <button class="action-btn share-btn" onclick="openShareModal()">
+        <i class="fas fa-share-alt"></i> Share
+      </button>
+      <button class="action-btn print-btn" onclick="printQRCode()">
+        <i class="fas fa-print"></i> Print
+      </button>
+    </div>
+  </div>
+
+  <!-- QR Scanner Screen -->
+  <div id="scannerContainer" class="container">
+    <div class="header">
+      <button class="back-btn" onclick="stopScanner(); showSplash()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1>QR Code Scanner</h1>
+      <div style="width: 40px;"></div>
+    </div>
+    
+    <!-- Scanner Placeholder (before camera starts) -->
+    <div class="scanner-placeholder">
+      <i class="fas fa-camera"></i>
+      <h3>Ready to Scan</h3>
+      <p>Click "Start Scanner" below to activate your camera and scan QR codes.</p>
+    </div>
+    
+    <!-- Video Scanner Container -->
+    <div class="scanner-video-container" style="display: none;">
+      <div class="scanner-frame">
+        <video id="scanner-video" autoplay playsinline></video>
+        <canvas id="scanner-canvas" style="display: none;"></canvas>
+        <div class="scanner-overlay">
+          <div class="scanner-box"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scan Result Container -->
+    <div id="scan-result" class="scan-result" style="display: none;">
+      <div class="result-header">
+        <i class="fas fa-check-circle"></i>
+        <h3>QR Code Scanned!</h3>
+      </div>
+      <div id="scan-result-text" class="scan-result-text"></div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="copyScannedResult()">
+          <i class="fas fa-copy"></i> Copy
+        </button>
+        <button class="btn btn-success" onclick="shareScannedResult()">
+          <i class="fas fa-share"></i> Share
+        </button>
+      </div>
+      <button class="btn btn-secondary" onclick="scanAgain()" style="width: 100%; margin-top: 10px;">
+        <i class="fas fa-qrcode"></i> Scan Another
+      </button>
+    </div>
+    
+    <!-- Scanner Controls -->
+    <div class="scanner-controls">
+      <button id="start-scanner-btn" class="btn btn-success" onclick="startScanner()" style="width: 100%;">
+        <i class="fas fa-camera"></i> Start Scanner
+      </button>
+      <button id="stop-scanner-btn" class="btn btn-secondary" onclick="stopScanner()" style="width: 100%; display: none;">
+        <i class="fas fa-stop"></i> Stop Scanner
+      </button>
+    </div>
+    
+    <div class="scanner-instructions">
+      <h3>How to scan:</h3>
+      <ul>
+        <li>Click "Start Scanner" to activate your camera</li>
+        <li>Point your camera at a QR code</li>
+        <li>The scanner will automatically detect and decode it</li>
+        <li>View, copy, or share the scanned content</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- History Screen -->
+  <div id="historyContainer" class="container">
+    <div class="header">
+      <button class="back-btn" onclick="showSplash()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1>QR Code History</h1>
+      <div style="width: 40px;"></div>
+    </div>
+    
+    <div id="historyList" class="history-list"></div>
+    
+    <button class="btn clear-history-btn" onclick="clearHistory()">
+      <i class="fas fa-trash"></i> Clear All History
+    </button>
+  </div>
+
+  <!-- Share Modal -->
+  <div id="shareModal" class="modal">
+    <div class="modal-content">
+      <h2>Share QR Code</h2>
+      <div class="share-options">
+        <div class="share-option" onclick="shareQRCodeWithImage()">
+          <div class="share-icon share-universal">
+            <i class="fas fa-share-nodes"></i>
+          </div>
+          <span>Share</span>
+        </div>
+        <div class="share-option" onclick="shareViaEmail()">
+          <div class="share-icon email">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <span>Email</span>
+        </div>
+        <div class="share-option" onclick="shareViaWhatsApp()">
+          <div class="share-icon whatsapp">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <span>WhatsApp</span>
+        </div>
+        <div class="share-option" onclick="shareViaFacebook()">
+          <div class="share-icon facebook">
+            <i class="fab fa-facebook-f"></i>
+          </div>
+          <span>Facebook</span>
+        </div>
+        <div class="share-option" onclick="shareViaTwitter()">
+          <div class="share-icon twitter">
+            <i class="fab fa-twitter"></i>
+          </div>
+          <span>Twitter</span>
+        </div>
+        <div class="share-option" onclick="downloadQRCode()">
+          <div class="share-icon download">
+            <i class="fas fa-download"></i>
+          </div>
+          <span>Download</span>
+        </div>
+      </div>
+      <button class="close-modal" onclick="closeShareModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script src="scripts/main.js"></script>
+  <script src="scripts/navigation.js"></script>
+  <script src="scripts/generator.js"></script>
+  <script src="scripts/scanner.js"></script>
+  <script src="scripts/history.js"></script>
+  <script src="scripts/share.js"></script>
+</body>
+</html>
